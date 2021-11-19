@@ -1,11 +1,3 @@
-provider "alicloud" {
-  profile                 = var.profile != "" ? var.profile : null
-  shared_credentials_file = var.shared_credentials_file != "" ? var.shared_credentials_file : null
-  region                  = var.region != "" ? var.region : null
-  skip_region_validation  = var.skip_region_validation
-  configuration_source    = "terraform-alicloud-modules/kms"
-}
-
 locals {
   this_kms_key_id    = var.use_existing_key == true || var.existing_key_id != "" ? var.existing_key_id : concat(alicloud_kms_key.kms.*.id, [""])[0]
   ciphertext_blob    = var.decrypt == true || alicloud_kms_ciphertext.kms.0.ciphertext_blob != "" ? alicloud_kms_ciphertext.kms.0.ciphertext_blob : null
