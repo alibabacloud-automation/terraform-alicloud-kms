@@ -21,6 +21,18 @@ variable "skip_region_validation" {
   default     = false
 }
 
+variable "deletion_window_in_days" {
+  description = "(Deprecated from version 1.3.0) Duration in days after which the key is deleted after destruction of the resource, must be between 7 and 30 days. Default to 30 days.New field 'pending_window_in_days' instead."
+  type        = string
+  default     = "30"
+}
+
+variable "is_enabled" {
+  description = "(Deprecated from version 1.3.0) Specifies whether the key is enabled. Default to true.New field 'status' instead."
+  type        = bool
+  default     = true
+}
+
 #kms key
 variable "create_kms" {
   description = "Whether to create kms key resource. Default to true."
@@ -35,9 +47,9 @@ variable "use_existing_key" {
 }
 
 variable "description" {
-  description = "The description of the key as viewed in Alicloud console. Default to 'From Terraform'."
+  description = "The description of the key as viewed in Alicloud console."
   type        = string
-  default     = "From Terraform"
+  default     = ""
 }
 
 variable "key_usage" {
@@ -46,27 +58,27 @@ variable "key_usage" {
   default     = "ENCRYPT/DECRYPT"
 }
 
-variable "deletion_window_in_days" {
-  description = "Duration in days after which the key is deleted after destruction of the resource, must be between 7 and 30 days. Default to 30 days."
+variable "pending_window_in_days" {
+  description = "Duration in days after which the key is deleted after destruction of the resource, must be between 7 and 30 days. Defaults to 30 days."
   type        = string
-  default     = 30
+  default     = "30"
 }
 
-variable "is_enabled" {
-  description = "Specifies whether the key is enabled. Default to true."
-  type        = bool
-  default     = true
+variable "status" {
+  description = "The status of CMK."
+  type        = string
+  default     = "Enabled"
 }
 
 #kms ciphertext
 variable "encrypt" {
-  description = "Whether to encrypt plaintext. Default to true.."
+  description = "Whether to encrypt plaintext. Default to true."
   type        = bool
   default     = true
 }
 
-variable "ciphertext_blob" {
-  description = "The ciphertext of the data key encrypted with the primary CMK version."
+variable "existing_key_id" {
+  description = "The globally unique ID of the CMK."
   type        = string
   default     = ""
 }
@@ -77,21 +89,22 @@ variable "plaintext" {
   default     = ""
 }
 
-variable "existing_key_id" {
-  description = "The globally unique ID of the CMK."
-  type        = string
-  default     = ""
-}
-
 variable "encryption_context" {
   description = "The Encryption context. If you specify this parameter here, it is also required when you call the Decrypt API operation. For more information, see [Encryption Context](https://www.alibabacloud.com/help/doc-detail/42975.htm)."
   type        = map(string)
   default     = {}
 }
 
+#alicloud_kms_plaintext
+variable "ciphertext_blob" {
+  description = "The ciphertext of the data key encrypted with the primary CMK version."
+  type        = string
+  default     = ""
+}
+
 #kms decrypt
 variable "decrypt" {
-  description = "Whether to decrypt ciphertext. Default to true.."
+  description = "Whether to decrypt ciphertext. Default to true."
   type        = bool
   default     = true
 }

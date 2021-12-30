@@ -1,29 +1,46 @@
-variable "region" {
-  default = "cn-beijing"
-}
-variable "profile" {
-  default = "default"
-}
-provider "alicloud" {
-  region  = var.region
-  profile = var.profile
-}
-
+//create a new kms
 module "kms" {
-  source  = "../.."
-  region  = var.region
-  profile = var.profile
+  source = "../.."
 
   #key
-  description             = "Hello_KMS"
-  deletion_window_in_days = "7"
-  is_enabled              = true
+  use_existing_key       = false
+  create_kms             = true
+  description            = var.description
+  key_usage              = "ENCRYPT/DECRYPT"
+  pending_window_in_days = var.pending_window_in_days
+  status                 = var.status
 
-  #ciphertext
-  encrypt         = true
-  plaintext       = "example"
-  ciphertext_blob = "test"
+  encrypt = false
+  decrypt = false
+}
 
-  #decrypt
-  decrypt = true
+//encrypt
+module "encrypt" {
+  source = "../.."
+  #key
+  use_existing_key = true
+  create_kms       = false
+  existing_key_id  = module.kms.this_kms_key_id
+  encrypt          = true
+  decrypt          = false
+  plaintext        = "example"
+  encryption_context = {
+    test = "test"
+  }
+
+}
+
+//decrypt
+module "decrypt" {
+  source = "../.."
+  #key
+  use_existing_key = true
+  create_kms       = false
+  existing_key_id  = module.kms.this_kms_key_id
+  encrypt          = false
+  decrypt          = true
+  ciphertext_blob  = module.encrypt.this_kms_ciphertext_ciphertext_blob
+  encryption_context = {
+    test = "test"
+  }
 }

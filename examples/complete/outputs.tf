@@ -29,19 +29,19 @@ output "this_kms_key_key_is_enabled" {
   value       = module.kms.this_kms_key_is_enabled
 }
 
-
+#encrypt
 output "this_kms_ciphertext_ciphertext_blob" {
   description = "The ciphertext of the data key encrypted with the primary CMK version."
-  value       = module.kms.this_kms_ciphertext_ciphertext_blob
+  value       = module.encrypt.this_kms_ciphertext_ciphertext_blob
 }
 
 #decrypt
 output "this_decrypt_plaintext" {
   description = "The decrypted plaintext."
-  value       = module.kms.this_decrypt_plaintext
+  value       = module.decrypt.this_decrypt_plaintext
 }
 
 output "this_decrypt_key_id" {
   description = "The globally unique ID of the CMK. It is the ID of the CMK used to decrypt ciphertext."
-  value       = module.kms.this_decrypt_key_id
+  value       = module.decrypt.this_decrypt_key_id
 }
