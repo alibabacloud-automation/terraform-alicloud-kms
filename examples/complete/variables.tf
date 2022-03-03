@@ -14,5 +14,5 @@ variable "pending_window_in_days" {
 variable "status" {
   description = "The status of CMK."
   type        = string
-  default     = "Enabled"
+  default     = "PendingDeletion"
 }
