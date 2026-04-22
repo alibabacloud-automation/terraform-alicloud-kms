@@ -1,4 +1,4 @@
-//create a new kms
+#create a new kms
 module "kms" {
   source = "../.."
 
@@ -14,7 +14,7 @@ module "kms" {
   decrypt = false
 }
 
-//encrypt
+#encrypt
 module "encrypt" {
   source = "../.."
   #key
@@ -30,7 +30,7 @@ module "encrypt" {
 
 }
 
-//decrypt
+#decrypt
 module "decrypt" {
   source = "../.."
   #key

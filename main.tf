@@ -1,5 +1,5 @@
 locals {
-  this_kms_key_id    = var.use_existing_key || var.existing_key_id != "" ? var.existing_key_id : concat(alicloud_kms_key.kms.*.id, [""])[0]
+  this_kms_key_id    = var.use_existing_key || var.existing_key_id != "" ? var.existing_key_id : concat(alicloud_kms_key.kms[*].id, [""])[0]
   ciphertext_blob    = var.decrypt ? var.ciphertext_blob : null
   encryption_context = var.decrypt ? var.encryption_context : null
 }
